@@ -1,5 +1,5 @@
 //=============================================================================
-// 2. Main Memory (RAM) Module
+// Main Memory (RAM) Module
 //=============================================================================
 // Models the 4Kx16 Main Memory.
 // It has synchronous write and asynchronous read.

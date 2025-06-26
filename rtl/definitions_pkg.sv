@@ -1,5 +1,5 @@
 //=============================================================================
-// 1. Package with Global Definitions
+// Package with Global Definitions
 //=============================================================================
 // This package contains all the constants, such as instruction opcodes,
 // cycle states, and ALU operations, making the code more readable and
@@ -39,8 +39,5 @@ package definitions_pkg;
     parameter [2:0] ALU_TRANSFER = 3'b101; // Transfer B to output (A <- B)
     parameter [2:0] ALU_INC      = 3'b110; // Increment AC
     parameter [2:0] ALU_CLA      = 3'b111; // Clear AC (Mise à Zéro)
-    // Note: CIR and CIL are not included in the 8 primary ALU ops,
-    // they are often handled by a shifter external or internal to the ALU.
-    // We will model them as part of the AC register logic for simplicity.
 
 endpackage : definitions_pkg

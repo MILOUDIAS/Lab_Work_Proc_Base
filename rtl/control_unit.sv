@@ -1,6 +1,6 @@
 
 //=============================================================================
-// 3. Control Unit Module
+// Control Unit Module
 //=============================================================================
 // This is the brain of the CPU. It generates all control signals (F1-F49)
 // based on the current instruction and the processor's state.
@@ -23,8 +23,6 @@ module control_unit (
     input  logic        s_in,         // Start/Stop button
 
     // Outputs: Control Signals F1-F49
-    // Note: In a real implementation, these would be individual wires.
-    // For simplicity, we bundle them into a structure or a wide vector.
     output logic [49:1] control_word
 );
     import definitions_pkg::*;
@@ -45,7 +43,7 @@ module control_unit (
     assign cycle = {f_ff, r_ff};
     assign q = op_code;
 
-    // Generate one-hot timing signals T0, T1, T2, T3
+    // Generate timing signals T0, T1, T2, T3
     assign t[0] = (t_step_cnt == 4'd0);
     assign t[1] = (t_step_cnt == 4'd1);
     assign t[2] = (t_step_cnt == 4'd2);
@@ -109,8 +107,6 @@ module control_unit (
     end
 
     // --- Combinational Logic to Generate Control Word ---
-    // This section directly implements the LTR table from "Chapitre IV", page 23.
-    // Each Fi is activated by a specific condition.
     logic [49:1] f_signals;
     always_comb begin
         f_signals = '0; // Default all signals to inactive

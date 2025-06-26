@@ -1,5 +1,5 @@
 //=============================================================================
-// 5. Top-level Processor Module (Proc_base)
+// Top-level Processor Module (Proc_base)
 //=============================================================================
 // This module connects all the individual components together structurally.
 module proc_base(
