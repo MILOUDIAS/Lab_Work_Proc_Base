@@ -30,7 +30,7 @@ Let's assume you are in a directory containing a `Makefile` and a cocotb test fi
     make
     ```
 
-    This command compiles the HDL source files and executes the Python testbench using the Icarus Verilog simulator.
+    This command compiles the HDL source files and executes the Python testbench using the Verilator simulator.
 
 2.  **Simulation Output:**
     The `make` command will generate output files, including a waveform dump file (typically with a `.vcd` extension), such as `dump.vcd`.
@@ -40,6 +40,7 @@ Let's assume you are in a directory containing a `Makefile` and a cocotb test fi
 go the 'tb' sub directory, and execute the command:
 
     ```bash
+    make clean      # to clean previous simulations
     make alu_test   # to test the alu
     make proc_base_test   # to test the top level core
     ```
