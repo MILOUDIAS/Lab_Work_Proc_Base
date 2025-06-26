@@ -4,7 +4,7 @@ This repository contains the lab work for a Basic custom processor for my lab wo
 
 ## 1. Setup & Environment: `IIC-OSIC-TOOLS`
 
-To ensure a consistent and reproducible environment, all the necessary tools for this lab have been pre-installed in the **`IIC-OSIC-TOOLS`** environment. There is no need to install any software on your local machine.
+To ensure a consistent and reproducible environment, all the necessary tools for this lab have been pre-installed in the **[`IIC-OSIC-TOOLS`](https://github.com/iic-jku/IIC-OSIC-TOOLS)** environment. There is no need to install any software on your local machine.
 
 Please launch the `IIC-OSIC-TOOLS` container or virtual machine to access all required dependencies.
 
