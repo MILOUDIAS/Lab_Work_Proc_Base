@@ -23,9 +23,10 @@ All simulation targets are managed using a `Makefile`. To run a specific testben
 Let's assume you are in a directory containing a `Makefile` and a cocotb test file.
 
 1.  **Launch the simulation:**
-    Open a terminal within the `IIC-OSIC-TOOLS` environment, navigate to the project directory, and run the following command:
+    Open a terminal within the `IIC-OSIC-TOOLS` environment, navigate to the project directory, go the 'tb' directory, and got to sub directory you want to test:
 
     ```bash
+    cd tb/alu
     make
     ```
 
@@ -58,3 +59,10 @@ After a simulation is complete, you can analyze the resulting waveforms using `G
 
 2.  **Analyze Waveforms:**
     GTKWave will open, allowing you to drag and drop signals into the waveform viewer to analyze the circuit's behavior during the simulation.
+
+## 4. My simulations results
+
+### ALU simulation:
+
+the results verilator using cocotb:
+[`alu cocotb`](simulations/alu_cocotb.png)
