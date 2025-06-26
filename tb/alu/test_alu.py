@@ -13,9 +13,6 @@ import random
 ALU_AND = 0
 ALU_ADD = 1
 ALU_CMA = 2
-# Note: In the SV code, TRANSFER is 5, INC is 6, CLA is 7.
-# The comment had a slight discrepancy, but the SV 'case' statement is the source of truth.
-# Correcting based on the provided SystemVerilog 'case' statement logic.
 # ALU_AND:      result = a & b;       (op=0)
 # ALU_ADD:      {carry_out, result} = a + b;  (op=1)
 # ALU_CMA:      result = ~a;          (op=2)
@@ -31,6 +28,7 @@ ALU_CLA = 7
 DATA_WIDTH = 16
 MAX_VAL = (1 << DATA_WIDTH) - 1
 
+
 async def drive_and_check(dut, a_val, b_val, op_code, op_name):
     """
     Helper coroutine to drive inputs, wait, and check the output against a golden model.
@@ -41,7 +39,7 @@ async def drive_and_check(dut, a_val, b_val, op_code, op_name):
 
     # Since the ALU is combinational, we wait a tiny amount of time for
     # the simulator to propagate the new input values.
-    await Timer(1, units='ns')
+    await Timer(1, units="ns")
 
     # Golden model: Calculate the expected result in Python
     expected_result = 0
@@ -55,7 +53,7 @@ async def drive_and_check(dut, a_val, b_val, op_code, op_name):
         expected_result = res & MAX_VAL
         expected_carry = 1 if res > MAX_VAL else 0
     elif op_code == ALU_CMA:
-        expected_result = ~a_val & MAX_VAL # Complement and mask to 16 bits
+        expected_result = ~a_val & MAX_VAL  # Complement and mask to 16 bits
     elif op_code == ALU_TRANSFER:
         expected_result = b_val
     elif op_code == ALU_INC:
@@ -69,17 +67,18 @@ async def drive_and_check(dut, a_val, b_val, op_code, op_name):
         expected_result = 0
         expected_carry = 0
 
-
     # Get actual results from the DUT
     actual_result = dut.result.value
     actual_carry = dut.carry_out.value
 
     # Assertions to check correctness
-    assert actual_result == expected_result, \
+    assert actual_result == expected_result, (
         f"[{op_name}] Result mismatch! A={a_val}, B={b_val} -> DUT:{actual_result}, Expected:{expected_result}"
-    assert actual_carry == expected_carry, \
+    )
+    assert actual_carry == expected_carry, (
         f"[{op_name}] Carry mismatch! A={a_val}, B={b_val} -> DUT:{actual_carry}, Expected:{expected_carry}"
-    
+    )
+
     dut._log.info(f"PASSED: {op_name} with A={a_val}, B={b_val}")
 
 
@@ -121,7 +120,7 @@ async def test_randomized_operations(dut):
         "ALU_CMA": ALU_CMA,
         "ALU_TRANSFER": ALU_TRANSFER,
         "ALU_INC": ALU_INC,
-        "ALU_CLA": ALU_CLA
+        "ALU_CLA": ALU_CLA,
     }
 
     num_random_tests = 100
@@ -131,11 +130,11 @@ async def test_randomized_operations(dut):
         # Generate random inputs
         rand_a = random.randint(0, MAX_VAL)
         rand_b = random.randint(0, MAX_VAL)
-        
+
         # Pick a random operation
         op_name, op_code = random.choice(list(operations.items()))
 
         # Drive, wait, and check
         await drive_and_check(dut, rand_a, rand_b, op_code, op_name)
-    
+
     dut._log.info("Randomized testing complete.")

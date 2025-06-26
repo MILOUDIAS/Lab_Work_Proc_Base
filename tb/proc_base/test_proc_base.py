@@ -16,6 +16,7 @@ OP_LDA = 2
 OP_STA = 3
 OP_NON_IRM = 7
 
+
 # --- Assembler Helper ---
 def assemble(mnemonic, operand=0, i_bit=0):
     """A simple assembler to convert mnemonics to 16-bit machine code."""
@@ -31,7 +32,8 @@ def assemble(mnemonic, operand=0, i_bit=0):
     if mnemonic == "HLT":
         # Opcode=7 (111), I=0, d_bits[0]=1. Hex: 7001
         return (OP_NON_IRM << 12) | 1
-    return 0 # Invalid instruction becomes a NOP
+    return 0  # Invalid instruction becomes a NOP
+
 
 class ProcessorHarness:
     """A helper class to manage interactions with the proc_base DUT."""
@@ -66,7 +68,9 @@ class ProcessorHarness:
         Loads a program into the internal RAM using hierarchical paths.
         The program is a list of (address, data) tuples.
         """
-        self.dut._log.info(f"Loading program into RAM at base address 0x{base_addr:X}...")
+        self.dut._log.info(
+            f"Loading program into RAM at base address 0x{base_addr:X}..."
+        )
         for i, instruction in enumerate(program):
             # Accessing memory inside the DUT: dut -> main_ram (instance) -> mem (storage array)
             addr = base_addr + i
@@ -81,6 +85,7 @@ class ProcessorHarness:
 # =============================================================================
 # Test Case
 # =============================================================================
+
 
 @cocotb.test()
 async def test_run_simple_program(dut):
@@ -98,10 +103,10 @@ async def test_run_simple_program(dut):
 
     # --- Program and Data Definition ---
     prog_base_addr = 0x010
-    data_addr_a    = 0x100
-    data_addr_b    = 0x101
-    result_addr    = 0x102
-    
+    data_addr_a = 0x100
+    data_addr_b = 0x101
+    result_addr = 0x102
+
     value_a = 150
     value_b = 250
     expected_result = value_a + value_b
@@ -111,9 +116,9 @@ async def test_run_simple_program(dut):
         assemble("LDA", data_addr_a),
         assemble("ADD", data_addr_b),
         assemble("STA", result_addr),
-        assemble("HLT")
+        assemble("HLT"),
     ]
-    
+
     # --- Test Execution ---
     await harness.reset()
 
@@ -128,7 +133,7 @@ async def test_run_simple_program(dut):
     # We do this by forcing the internal pc_reg.
     dut.pc_reg.value = prog_base_addr
     dut._log.info(f"Manually setting PC to start at 0x{prog_base_addr:X}")
-    
+
     await harness.start()
 
     # Wait for the program to execute.
@@ -137,21 +142,24 @@ async def test_run_simple_program(dut):
     dut._log.info("Waiting 40 cycles for program execution...")
     for _ in range(40):
         await RisingEdge(dut.clk)
-        
+
     dut._log.info("Program execution finished. Verifying results.")
 
     # --- Verification ---
     # 1. Read the result from memory
     final_result = await harness.read_ram(result_addr)
-    dut._log.info(f"Value at result address 0x{result_addr:X} is {final_result.integer}")
-    
-    assert final_result.integer == expected_result, \
+    dut._log.info(
+        f"Value at result address 0x{result_addr:X} is {final_result.integer}"
+    )
+
+    assert final_result.integer == expected_result, (
         f"Program result incorrect! Expected {expected_result}, got {final_result.integer}"
+    )
 
     # 2. Check if the processor has halted
     # We can check the internal state of the 's_ff' in the control unit.
     s_ff_halted = dut.ctrl.s_ff.value
     assert s_ff_halted == 0, "Processor did not halt after HLT instruction."
-    
+
     dut._log.info("Program result is correct and processor has halted.")
     dut._log.info("Top-level test PASSED.")
