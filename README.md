@@ -65,4 +65,4 @@ After a simulation is complete, you can analyze the resulting waveforms using `G
 ### ALU simulation:
 
 the results verilator using cocotb:
-[`alu cocotb`](simulations/alu_cocotb.png)
+![`alu cocotb`](simulations/alu_cocotb.png)
