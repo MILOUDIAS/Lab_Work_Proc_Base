@@ -64,5 +64,40 @@ After a simulation is complete, you can analyze the resulting waveforms using `G
 
 ### ALU simulation:
 
-the results verilator using cocotb:
+##### the results of verilator using cocotb:
+
 ![`alu cocotb`](simulations/alu_cocotb.png)
+
+##### the results of waveforms:
+
+![`alu cocotb`](simulations/alu_dump_vcd.png)
+
+### Control Unit simulation:
+
+##### the results of verilator using cocotb:
+
+![`alu cocotb`](simulations/control_unit_cocotb.png)
+
+##### the results of waveforms:
+
+![`alu cocotb`](simulations/control_unit_dump_vcd.png)
+
+### ram simulation:
+
+##### the results of verilator using cocotb:
+
+![`alu cocotb`](simulations/ram_cocotb.png)
+
+##### the results of waveforms:
+
+![`alu cocotb`](simulations/ram_dump_vcd.png)
+
+### Top level proc base simulation:
+
+##### the results of verilator using cocotb:
+
+![`alu cocotb`](simulations/proc_base_cocotb.png)
+
+##### the results of waveforms:
+
+![`alu cocotb`](simulations/proc_base_dump_vcd.png)
